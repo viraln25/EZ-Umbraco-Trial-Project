@@ -1,0 +1,65 @@
+﻿@inherits UmbracoViewPage
+
+@using Umbraco.Web.Models
+
+@{
+    IPublishedContent homePage = Umbraco.AssignedContentItem.AncestorOrSelf("home");
+    IEnumerable<IPublishedContent> navigationPages = homePage.Children(x => x.IsVisible());
+}
+
+
+<div id="nav-container">
+    <div id="primary-nav-container">
+        <ul id="primary-nav">
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li class="current">
+                <a href="index.html">The Goring</a>
+            </li>
+            <li>
+                <a href="page.html">Our Offers</a>
+            </li>
+            <li>
+                <a href="page.html">Our Suites</a>
+            </li>
+            <li>
+                <a href="page.html">Our Rooms</a>
+            </li>
+            <li>
+                <a href="location.html">Location</a>
+            </li>
+            <li>
+                <a href="page.html">Dining</a>
+            </li>
+            <li>
+                <a href="page.html">Events</a>
+            </li>
+            <li><a href="email-form.html">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <div id="check-avail">
+        <a href="#" id="check-avail-toggle">Book <span>a</span> stay</a>
+        <div id="check-avail-form">
+            <form action="https://gc.synxis.com/rez.aspx" method="get" target="_blank">
+                <input type="hidden" name="Hotel" value="15601" />
+                <input type="hidden" name="Chain" value="6386" />
+                <input type="hidden" name="locale" value="en-gb" />
+                <input type="hidden" name="start" value="availresults" />
+                <input type="hidden" name="adult" value="2" />
+                <input type="text" id="arrive" name="arrive" readonly="readonly" />
+                <input type="text" id="depart" name="depart" readonly="readonly" />
+                <div class="check-avail-button">
+                    <input type="submit" id="check-avail-submit" value="Check Availability" />
+                </div>
+                <div class="check-avail-button">
+                    <a href="#">Make an enquiry</a>
+                </div>
+                <p>Call our team: +44 (0) 20 7396 90005</p>
+            </form>
+        </div>
+    </div><!-- /#check-avail -->
+</div><!-- /#nav-container -->
+
+

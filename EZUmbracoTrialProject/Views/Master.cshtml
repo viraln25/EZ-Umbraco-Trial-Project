@@ -1,0 +1,60 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = null;
+}
+
+@* the fun starts here *@
+
+<html>
+<head>
+	<!-- <title>The Goring</title> -->
+	
+	@{ Html.RenderPartial("SiteLayout/_MetaData"); }
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/flexslider.css" />
+	<link rel="stylesheet" type="text/css" href="css/goring.css" />
+
+	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="scripts/jquery-ui.min.js"></script>
+	<script src="scripts/jquery.flexslider-min.js"></script>
+	<script src="scripts/main.js"></script>
+
+</head>
+<body>
+
+
+    <div id="wrapper">
+
+        <div id="header">
+
+
+            <div id="logo">
+                <a href="index.html"><img src="images/logo.jpg" alt="The Goring" /></a>
+            </div>
+
+            @{ Html.RenderPartial("SiteLayout/_MainNavigation"); }
+
+
+        </div><!-- /#header -->
+
+
+
+
+
+
+
+
+         
+        @RenderBody()
+
+        @{ Html.RenderPartial("SiteLayout/_Footer"); }
+
+    </div><!-- /#wrapper -->
+
+</body>
+</html>
