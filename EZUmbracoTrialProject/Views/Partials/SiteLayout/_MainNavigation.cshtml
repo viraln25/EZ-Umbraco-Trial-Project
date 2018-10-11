@@ -1,10 +1,14 @@
-﻿@inherits UmbracoViewPage
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 
 @using Umbraco.Web.Models
 
 @{
     IPublishedContent homePage = Umbraco.AssignedContentItem.AncestorOrSelf("home");
     IEnumerable<IPublishedContent> navigationPages = homePage.Children(x => x.IsVisible());
+
+    IEnumerable<RelatedLink> menuItems = Umbraco.AssignedContentItem.GetPropertyValue<IEnumerable<RelatedLink>>("menuItems", true);
+
+
 }
 
 
@@ -14,29 +18,43 @@
             <li>
                 <a href="/">Home</a>
             </li>
-            <li class="current">
-                <a href="index.html">The Goring</a>
-            </li>
-            <li>
-                <a href="page.html">Our Offers</a>
-            </li>
-            <li>
-                <a href="page.html">Our Suites</a>
-            </li>
-            <li>
-                <a href="page.html">Our Rooms</a>
-            </li>
-            <li>
-                <a href="location.html">Location</a>
-            </li>
-            <li>
-                <a href="page.html">Dining</a>
-            </li>
-            <li>
-                <a href="page.html">Events</a>
-            </li>
-            <li><a href="email-form.html">Contact Us</a></li>
+            @foreach (var child in Model.Content.Site().Children())
+            {
+                <li class="@child.IsAncestorOrSelf(Model.Content, "current")">
+                    <a href="@child.Url">@child.Name</a>
+                </li>
+            }
         </ul>
+
+
+        <!--
+    <li>
+        <a href="/">Home</a>
+    </li>
+    <li class="current">
+        <a href="index.html">The Goring</a>
+    </li>
+    <li>
+        <a href="page.html">Our Offers</a>
+    </li>
+    <li>
+        <a href="page.html">Our Suites</a>
+    </li>
+    <li>
+        <a href="page.html">Our Rooms</a>
+    </li>
+    <li>
+        <a href="location.html">Location</a>
+    </li>
+    <li>
+        <a href="page.html">Dining</a>
+    </li>
+    <li>
+        <a href="page.html">Events</a>
+    </li>
+    <li><a href="email-form.html">Contact Us</a></li>
+        -->
+
     </div>
 
     <div id="check-avail">
@@ -61,5 +79,3 @@
         </div>
     </div><!-- /#check-avail -->
 </div><!-- /#nav-container -->
-
-

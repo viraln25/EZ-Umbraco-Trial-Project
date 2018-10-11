@@ -8,8 +8,8 @@ using  Umbraco.Web;
 using  Umbraco.ModelsBuilder;
 using  Umbraco.ModelsBuilder.Umbraco;
 [assembly: PureLiveAssembly]
-[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "7a0f243b87af61dd")]
-[assembly:System.Reflection.AssemblyVersion("0.0.0.2")]
+[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "9fbb8f1bd0fc55d6")]
+[assembly:System.Reflection.AssemblyVersion("0.0.0.8")]
 
 
 // FILE: models.generated.cs
@@ -116,20 +116,9 @@ namespace Umbraco.Web.PublishedContentModels
 		public static string GetMetaName(IMetaDataControls that) { return that.GetPropertyValue<string>("metaName"); }
 	}
 
-	// Mixin content Type 1062 with alias "navigationControls"
-	/// <summary>Navigation Controls</summary>
-	public partial interface INavigationControls : IPublishedContent
-	{
-		/// <summary>Menu Items</summary>
-		Umbraco.Web.Models.RelatedLinks MenuItems { get; }
-
-		/// <summary>Umbraco Navi Hide</summary>
-		bool UmbracoNaviHide { get; }
-	}
-
 	/// <summary>Navigation Controls</summary>
 	[PublishedContentModel("navigationControls")]
-	public partial class NavigationControls : PublishedContentModel, INavigationControls
+	public partial class NavigationControls : PublishedContentModel
 	{
 #pragma warning disable 0109 // new is redundant
 		public new const string ModelTypeAlias = "navigationControls";
@@ -158,23 +147,8 @@ namespace Umbraco.Web.PublishedContentModels
 		[ImplementPropertyType("menuItems")]
 		public Umbraco.Web.Models.RelatedLinks MenuItems
 		{
-			get { return GetMenuItems(this); }
+			get { return this.GetPropertyValue<Umbraco.Web.Models.RelatedLinks>("menuItems"); }
 		}
-
-		/// <summary>Static getter for Menu Items</summary>
-		public static Umbraco.Web.Models.RelatedLinks GetMenuItems(INavigationControls that) { return that.GetPropertyValue<Umbraco.Web.Models.RelatedLinks>("menuItems"); }
-
-		///<summary>
-		/// Umbraco Navi Hide
-		///</summary>
-		[ImplementPropertyType("umbracoNaviHide")]
-		public bool UmbracoNaviHide
-		{
-			get { return GetUmbracoNaviHide(this); }
-		}
-
-		/// <summary>Static getter for Umbraco Navi Hide</summary>
-		public static bool GetUmbracoNaviHide(INavigationControls that) { return that.GetPropertyValue<bool>("umbracoNaviHide"); }
 	}
 
 	// Mixin content Type 1064 with alias "footerControls"
@@ -285,7 +259,7 @@ namespace Umbraco.Web.PublishedContentModels
 
 	/// <summary>Home</summary>
 	[PublishedContentModel("home")]
-	public partial class Home : PublishedContentModel, IFooterControls, IMetaDataControls, INavigationControls
+	public partial class Home : PublishedContentModel, IFooterControls, IMetaDataControls, IPageLevelControls
 	{
 #pragma warning disable 0109 // new is redundant
 		public new const string ModelTypeAlias = "home";
@@ -390,21 +364,12 @@ namespace Umbraco.Web.PublishedContentModels
 		}
 
 		///<summary>
-		/// Menu Items
+		/// Page heading
 		///</summary>
-		[ImplementPropertyType("menuItems")]
-		public Umbraco.Web.Models.RelatedLinks MenuItems
+		[ImplementPropertyType("pageHeading")]
+		public string PageHeading
 		{
-			get { return Umbraco.Web.PublishedContentModels.NavigationControls.GetMenuItems(this); }
-		}
-
-		///<summary>
-		/// Umbraco Navi Hide
-		///</summary>
-		[ImplementPropertyType("umbracoNaviHide")]
-		public bool UmbracoNaviHide
-		{
-			get { return Umbraco.Web.PublishedContentModels.NavigationControls.GetUmbracoNaviHide(this); }
+			get { return Umbraco.Web.PublishedContentModels.PageLevelControls.GetPageHeading(this); }
 		}
 	}
 
@@ -494,6 +459,114 @@ namespace Umbraco.Web.PublishedContentModels
 		{
 			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
 		}
+	}
+
+	/// <summary>TextPage</summary>
+	[PublishedContentModel("textPage")]
+	public partial class TextPage : PublishedContentModel, IPageLevelControls
+	{
+#pragma warning disable 0109 // new is redundant
+		public new const string ModelTypeAlias = "textPage";
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+#pragma warning restore 0109
+
+		public TextPage(IPublishedContent content)
+			: base(content)
+		{ }
+
+#pragma warning disable 0109 // new is redundant
+		public new static PublishedContentType GetModelContentType()
+		{
+			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
+		}
+#pragma warning restore 0109
+
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<TextPage, TValue>> selector)
+		{
+			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+		}
+
+		///<summary>
+		/// Main Text
+		///</summary>
+		[ImplementPropertyType("mainText")]
+		public Newtonsoft.Json.Linq.JToken MainText
+		{
+			get { return this.GetPropertyValue<Newtonsoft.Json.Linq.JToken>("mainText"); }
+		}
+
+		///<summary>
+		/// Section Heading
+		///</summary>
+		[ImplementPropertyType("sectionHeading")]
+		public string SectionHeading
+		{
+			get { return this.GetPropertyValue<string>("sectionHeading"); }
+		}
+
+		///<summary>
+		/// Sub Heading
+		///</summary>
+		[ImplementPropertyType("subHeading")]
+		public string SubHeading
+		{
+			get { return this.GetPropertyValue<string>("subHeading"); }
+		}
+
+		///<summary>
+		/// Page heading
+		///</summary>
+		[ImplementPropertyType("pageHeading")]
+		public string PageHeading
+		{
+			get { return Umbraco.Web.PublishedContentModels.PageLevelControls.GetPageHeading(this); }
+		}
+	}
+
+	// Mixin content Type 1090 with alias "pageLevelControls"
+	/// <summary>Page Level Controls</summary>
+	public partial interface IPageLevelControls : IPublishedContent
+	{
+		/// <summary>Page heading</summary>
+		string PageHeading { get; }
+	}
+
+	/// <summary>Page Level Controls</summary>
+	[PublishedContentModel("pageLevelControls")]
+	public partial class PageLevelControls : PublishedContentModel, IPageLevelControls
+	{
+#pragma warning disable 0109 // new is redundant
+		public new const string ModelTypeAlias = "pageLevelControls";
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+#pragma warning restore 0109
+
+		public PageLevelControls(IPublishedContent content)
+			: base(content)
+		{ }
+
+#pragma warning disable 0109 // new is redundant
+		public new static PublishedContentType GetModelContentType()
+		{
+			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
+		}
+#pragma warning restore 0109
+
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<PageLevelControls, TValue>> selector)
+		{
+			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+		}
+
+		///<summary>
+		/// Page heading
+		///</summary>
+		[ImplementPropertyType("pageHeading")]
+		public string PageHeading
+		{
+			get { return GetPageHeading(this); }
+		}
+
+		/// <summary>Static getter for Page heading</summary>
+		public static string GetPageHeading(IPageLevelControls that) { return that.GetPropertyValue<string>("pageHeading"); }
 	}
 
 	/// <summary>Folder</summary>
