@@ -100,8 +100,6 @@
         string body = box.GetPropertyValue<string>("body");
         string rolloverImage = box.HasValue("rolloverImage") ? box.GetPropertyValue<IPublishedContent>("rolloverImage").Url : "";
 
-        // IEnumerable<RelatedLink> links = slide.GetPropertyValue<IEnumerable<RelatedLink>>("slideLink");
-        // RelatedLink link = links != null ? links.FirstOrDefault() : null;
 
         if (boxCount >= 0 && boxCount < 3)
         {

@@ -23,16 +23,9 @@
                     string subtitle = slide.HasValue("carouselSlideSubTitle") ? slide.GetPropertyValue<string>("carouselSlideSubTitle") : "";
                     string imageUrl = slide.HasValue("carouselSlideImage") ? slide.GetPropertyValue<IPublishedContent>("carouselSlideImage").Url : "/img/carousel.jpg";
                     string textPosition = slide.GetPropertyValue<string>("carouselSlideTextPosition");
-                    // IEnumerable<RelatedLink> links = slide.GetPropertyValue<IEnumerable<RelatedLink>>("slideLink");
-                    // RelatedLink link = links != null ? links.FirstOrDefault() : null;
-
+                    
                     <li class="@textPosition">
-                        @*<div class="jumbotron carousel-hero" style="background-image:url('@(imageUrl)');">
-                                <h1 class="hero-title">@title</h1>
-                                <p class="hero-subtitle">@subtitle</p>
-
-                            </div>*@
-
+                      
 
                         <img src="@imageUrl" alt="" />
                         <div class="keyline"></div>
