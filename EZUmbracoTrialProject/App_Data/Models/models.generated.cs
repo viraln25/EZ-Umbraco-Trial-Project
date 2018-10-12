@@ -19,7 +19,7 @@ using Umbraco.ModelsBuilder;
 using Umbraco.ModelsBuilder.Umbraco;
 
 [assembly: PureLiveAssembly]
-[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "9647b8f2bd161d34")]
+[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "e4cdfeeca7101ce0")]
 [assembly:System.Reflection.AssemblyVersion("0.0.0.2")]
 
 namespace Umbraco.Web.PublishedContentModels
@@ -243,7 +243,7 @@ namespace Umbraco.Web.PublishedContentModels
 
 	/// <summary>Home</summary>
 	[PublishedContentModel("home")]
-	public partial class Home : PublishedContentModel, IFooterControls, IMetaDataControls, IPageLevelControls
+	public partial class Home : PublishedContentModel, ICarouselControls, IFooterControls, IMetaDataControls, IPageLevelControls
 	{
 #pragma warning disable 0109 // new is redundant
 		public new const string ModelTypeAlias = "home";
@@ -282,6 +282,15 @@ namespace Umbraco.Web.PublishedContentModels
 		public IPublishedContent Logo
 		{
 			get { return this.GetPropertyValue<IPublishedContent>("logo"); }
+		}
+
+		///<summary>
+		/// Main Carousel
+		///</summary>
+		[ImplementPropertyType("mainCarousel")]
+		public IEnumerable<IPublishedContent> MainCarousel
+		{
+			get { return Umbraco.Web.PublishedContentModels.CarouselControls.GetMainCarousel(this); }
 		}
 
 		///<summary>
@@ -684,6 +693,298 @@ namespace Umbraco.Web.PublishedContentModels
 		{
 			get { return this.GetPropertyValue<Newtonsoft.Json.Linq.JToken>("whatsIncludedText"); }
 		}
+	}
+
+	// Mixin content Type 1124 with alias "slideTitle"
+	/// <summary>Slide Title</summary>
+	public partial interface ISlideTitle : IPublishedContent
+	{
+		/// <summary>Carousel Slide Title</summary>
+		string CarouselSlideTitle { get; }
+	}
+
+	/// <summary>Slide Title</summary>
+	[PublishedContentModel("slideTitle")]
+	public partial class SlideTitle : PublishedContentModel, ISlideTitle
+	{
+#pragma warning disable 0109 // new is redundant
+		public new const string ModelTypeAlias = "slideTitle";
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+#pragma warning restore 0109
+
+		public SlideTitle(IPublishedContent content)
+			: base(content)
+		{ }
+
+#pragma warning disable 0109 // new is redundant
+		public new static PublishedContentType GetModelContentType()
+		{
+			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
+		}
+#pragma warning restore 0109
+
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<SlideTitle, TValue>> selector)
+		{
+			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+		}
+
+		///<summary>
+		/// Carousel Slide Title
+		///</summary>
+		[ImplementPropertyType("carouselSlideTitle")]
+		public string CarouselSlideTitle
+		{
+			get { return GetCarouselSlideTitle(this); }
+		}
+
+		/// <summary>Static getter for Carousel Slide Title</summary>
+		public static string GetCarouselSlideTitle(ISlideTitle that) { return that.GetPropertyValue<string>("carouselSlideTitle"); }
+	}
+
+	// Mixin content Type 1125 with alias "slideSubTitle"
+	/// <summary>Slide Sub Title</summary>
+	public partial interface ISlideSubTitle : IPublishedContent
+	{
+		/// <summary>Carousel Slide Sub Title</summary>
+		string CarouselSlideSubTitle { get; }
+	}
+
+	/// <summary>Slide Sub Title</summary>
+	[PublishedContentModel("slideSubTitle")]
+	public partial class SlideSubTitle : PublishedContentModel, ISlideSubTitle
+	{
+#pragma warning disable 0109 // new is redundant
+		public new const string ModelTypeAlias = "slideSubTitle";
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+#pragma warning restore 0109
+
+		public SlideSubTitle(IPublishedContent content)
+			: base(content)
+		{ }
+
+#pragma warning disable 0109 // new is redundant
+		public new static PublishedContentType GetModelContentType()
+		{
+			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
+		}
+#pragma warning restore 0109
+
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<SlideSubTitle, TValue>> selector)
+		{
+			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+		}
+
+		///<summary>
+		/// Carousel Slide Sub Title
+		///</summary>
+		[ImplementPropertyType("carouselSlideSubTitle")]
+		public string CarouselSlideSubTitle
+		{
+			get { return GetCarouselSlideSubTitle(this); }
+		}
+
+		/// <summary>Static getter for Carousel Slide Sub Title</summary>
+		public static string GetCarouselSlideSubTitle(ISlideSubTitle that) { return that.GetPropertyValue<string>("carouselSlideSubTitle"); }
+	}
+
+	// Mixin content Type 1126 with alias "slideImage"
+	/// <summary>Slide Image</summary>
+	public partial interface ISlideImage : IPublishedContent
+	{
+		/// <summary>Carousel Slide Image</summary>
+		IPublishedContent CarouselSlideImage { get; }
+	}
+
+	/// <summary>Slide Image</summary>
+	[PublishedContentModel("slideImage")]
+	public partial class SlideImage : PublishedContentModel, ISlideImage
+	{
+#pragma warning disable 0109 // new is redundant
+		public new const string ModelTypeAlias = "slideImage";
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+#pragma warning restore 0109
+
+		public SlideImage(IPublishedContent content)
+			: base(content)
+		{ }
+
+#pragma warning disable 0109 // new is redundant
+		public new static PublishedContentType GetModelContentType()
+		{
+			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
+		}
+#pragma warning restore 0109
+
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<SlideImage, TValue>> selector)
+		{
+			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+		}
+
+		///<summary>
+		/// Carousel Slide Image
+		///</summary>
+		[ImplementPropertyType("carouselSlideImage")]
+		public IPublishedContent CarouselSlideImage
+		{
+			get { return GetCarouselSlideImage(this); }
+		}
+
+		/// <summary>Static getter for Carousel Slide Image</summary>
+		public static IPublishedContent GetCarouselSlideImage(ISlideImage that) { return that.GetPropertyValue<IPublishedContent>("carouselSlideImage"); }
+	}
+
+	// Mixin content Type 1131 with alias "carouselControls"
+	/// <summary>Carousel Controls</summary>
+	public partial interface ICarouselControls : IPublishedContent
+	{
+		/// <summary>Main Carousel</summary>
+		IEnumerable<IPublishedContent> MainCarousel { get; }
+	}
+
+	/// <summary>Carousel Controls</summary>
+	[PublishedContentModel("carouselControls")]
+	public partial class CarouselControls : PublishedContentModel, ICarouselControls
+	{
+#pragma warning disable 0109 // new is redundant
+		public new const string ModelTypeAlias = "carouselControls";
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+#pragma warning restore 0109
+
+		public CarouselControls(IPublishedContent content)
+			: base(content)
+		{ }
+
+#pragma warning disable 0109 // new is redundant
+		public new static PublishedContentType GetModelContentType()
+		{
+			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
+		}
+#pragma warning restore 0109
+
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<CarouselControls, TValue>> selector)
+		{
+			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+		}
+
+		///<summary>
+		/// Main Carousel
+		///</summary>
+		[ImplementPropertyType("mainCarousel")]
+		public IEnumerable<IPublishedContent> MainCarousel
+		{
+			get { return GetMainCarousel(this); }
+		}
+
+		/// <summary>Static getter for Main Carousel</summary>
+		public static IEnumerable<IPublishedContent> GetMainCarousel(ICarouselControls that) { return that.GetPropertyValue<IEnumerable<IPublishedContent>>("mainCarousel"); }
+	}
+
+	/// <summary>Carousel Slide</summary>
+	[PublishedContentModel("carouselSlide")]
+	public partial class CarouselSlide : PublishedContentModel, ISlideImage, ISlideSubTitle, ISlideTextPosition, ISlideTitle
+	{
+#pragma warning disable 0109 // new is redundant
+		public new const string ModelTypeAlias = "carouselSlide";
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+#pragma warning restore 0109
+
+		public CarouselSlide(IPublishedContent content)
+			: base(content)
+		{ }
+
+#pragma warning disable 0109 // new is redundant
+		public new static PublishedContentType GetModelContentType()
+		{
+			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
+		}
+#pragma warning restore 0109
+
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<CarouselSlide, TValue>> selector)
+		{
+			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+		}
+
+		///<summary>
+		/// Carousel Slide Image
+		///</summary>
+		[ImplementPropertyType("carouselSlideImage")]
+		public IPublishedContent CarouselSlideImage
+		{
+			get { return Umbraco.Web.PublishedContentModels.SlideImage.GetCarouselSlideImage(this); }
+		}
+
+		///<summary>
+		/// Carousel Slide Sub Title
+		///</summary>
+		[ImplementPropertyType("carouselSlideSubTitle")]
+		public string CarouselSlideSubTitle
+		{
+			get { return Umbraco.Web.PublishedContentModels.SlideSubTitle.GetCarouselSlideSubTitle(this); }
+		}
+
+		///<summary>
+		/// Carousel Slide Text Position: Text over slide position i.e. Center, Bottom-Left, Bottom-Right, Top-Left, Top-Right
+		///</summary>
+		[ImplementPropertyType("carouselSlideTextPosition")]
+		public string CarouselSlideTextPosition
+		{
+			get { return Umbraco.Web.PublishedContentModels.SlideTextPosition.GetCarouselSlideTextPosition(this); }
+		}
+
+		///<summary>
+		/// Carousel Slide Title
+		///</summary>
+		[ImplementPropertyType("carouselSlideTitle")]
+		public string CarouselSlideTitle
+		{
+			get { return Umbraco.Web.PublishedContentModels.SlideTitle.GetCarouselSlideTitle(this); }
+		}
+	}
+
+	// Mixin content Type 1137 with alias "slideTextPosition"
+	/// <summary>Slide Text Position</summary>
+	public partial interface ISlideTextPosition : IPublishedContent
+	{
+		/// <summary>Carousel Slide Text Position</summary>
+		string CarouselSlideTextPosition { get; }
+	}
+
+	/// <summary>Slide Text Position</summary>
+	[PublishedContentModel("slideTextPosition")]
+	public partial class SlideTextPosition : PublishedContentModel, ISlideTextPosition
+	{
+#pragma warning disable 0109 // new is redundant
+		public new const string ModelTypeAlias = "slideTextPosition";
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+#pragma warning restore 0109
+
+		public SlideTextPosition(IPublishedContent content)
+			: base(content)
+		{ }
+
+#pragma warning disable 0109 // new is redundant
+		public new static PublishedContentType GetModelContentType()
+		{
+			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
+		}
+#pragma warning restore 0109
+
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<SlideTextPosition, TValue>> selector)
+		{
+			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+		}
+
+		///<summary>
+		/// Carousel Slide Text Position: Text over slide position i.e. Center, Bottom-Left, Bottom-Right, Top-Left, Top-Right
+		///</summary>
+		[ImplementPropertyType("carouselSlideTextPosition")]
+		public string CarouselSlideTextPosition
+		{
+			get { return GetCarouselSlideTextPosition(this); }
+		}
+
+		/// <summary>Static getter for Carousel Slide Text Position</summary>
+		public static string GetCarouselSlideTextPosition(ISlideTextPosition that) { return that.GetPropertyValue<string>("carouselSlideTextPosition"); }
 	}
 
 	/// <summary>Folder</summary>

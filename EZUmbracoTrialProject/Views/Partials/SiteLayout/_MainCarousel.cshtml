@@ -1,0 +1,54 @@
+﻿@inherits UmbracoViewPage
+
+@using Umbraco.Web.Models
+
+@{
+    string carouselId = "mainCarousel";
+    IEnumerable<IPublishedContent> carousel = Umbraco.AssignedContentItem.GetPropertyValue<IEnumerable<IPublishedContent>>(carouselId);
+}
+
+
+@if (carousel != null && carousel.Any())
+{
+
+    <div class="main-slider flexslider cf">
+        <ul class="slides">
+
+
+            @{
+                int slideCount = 0;
+                foreach (IPublishedContent slide in carousel.Where(x => x.IsVisible()))
+                {
+                    string title = slide.GetPropertyValue<string>("carouselSlideTitle");
+                    string subtitle = slide.HasValue("carouselSlideSubTitle") ? slide.GetPropertyValue<string>("carouselSlideSubTitle") : "";
+                    string imageUrl = slide.HasValue("carouselSlideImage") ? slide.GetPropertyValue<IPublishedContent>("carouselSlideImage").Url : "/img/carousel.jpg";
+                    string textPosition = slide.GetPropertyValue<string>("carouselSlideTextPosition");
+                    // IEnumerable<RelatedLink> links = slide.GetPropertyValue<IEnumerable<RelatedLink>>("slideLink");
+                    // RelatedLink link = links != null ? links.FirstOrDefault() : null;
+
+                    <li class="@textPosition">
+                        @*<div class="jumbotron carousel-hero" style="background-image:url('@(imageUrl)');">
+                                <h1 class="hero-title">@title</h1>
+                                <p class="hero-subtitle">@subtitle</p>
+
+                            </div>*@
+
+
+                        <img src="@imageUrl" alt="" />
+                        <div class="keyline"></div>
+                        <div class="flex-caption">
+                            <div class="main-caption">
+                                <p class="flex-caption-header">@title</p>
+                                <p>@subtitle</p>
+                            </div>
+                        </div>
+
+                    </li>
+                    slideCount++;
+                }
+            }
+        </ul>
+
+    </div>
+}
+

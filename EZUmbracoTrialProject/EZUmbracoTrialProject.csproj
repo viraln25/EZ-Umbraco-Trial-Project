@@ -1739,6 +1739,8 @@
     <Content Include="Views\OfferItem.cshtml" />
     <Content Include="Views\OffersList.cshtml" />
     <Content Include="Views\TextPage.cshtml" />
+    <Content Include="Views\Partials\SiteLayout\_MainCarousel.cshtml" />
+    <Content Include="Views\Partials\SiteLayout\_HomeBox.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
