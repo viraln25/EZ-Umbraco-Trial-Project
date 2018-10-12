@@ -19,8 +19,8 @@ using Umbraco.ModelsBuilder;
 using Umbraco.ModelsBuilder.Umbraco;
 
 [assembly: PureLiveAssembly]
-[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "9fbb8f1bd0fc55d6")]
-[assembly:System.Reflection.AssemblyVersion("0.0.0.8")]
+[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "9647b8f2bd161d34")]
+[assembly:System.Reflection.AssemblyVersion("0.0.0.2")]
 
 namespace Umbraco.Web.PublishedContentModels
 {
@@ -273,6 +273,15 @@ namespace Umbraco.Web.PublishedContentModels
 		public IEnumerable<IPublishedContent> HomeBoxes
 		{
 			get { return this.GetPropertyValue<IEnumerable<IPublishedContent>>("homeBoxes"); }
+		}
+
+		///<summary>
+		/// Logo: Logo of site
+		///</summary>
+		[ImplementPropertyType("logo")]
+		public IPublishedContent Logo
+		{
+			get { return this.GetPropertyValue<IPublishedContent>("logo"); }
 		}
 
 		///<summary>
@@ -551,6 +560,130 @@ namespace Umbraco.Web.PublishedContentModels
 
 		/// <summary>Static getter for Page heading</summary>
 		public static string GetPageHeading(IPageLevelControls that) { return that.GetPropertyValue<string>("pageHeading"); }
+	}
+
+	/// <summary>Offers List</summary>
+	[PublishedContentModel("offersList")]
+	public partial class OffersList : PublishedContentModel, IPageLevelControls
+	{
+#pragma warning disable 0109 // new is redundant
+		public new const string ModelTypeAlias = "offersList";
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+#pragma warning restore 0109
+
+		public OffersList(IPublishedContent content)
+			: base(content)
+		{ }
+
+#pragma warning disable 0109 // new is redundant
+		public new static PublishedContentType GetModelContentType()
+		{
+			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
+		}
+#pragma warning restore 0109
+
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<OffersList, TValue>> selector)
+		{
+			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+		}
+
+		///<summary>
+		/// Intro Text
+		///</summary>
+		[ImplementPropertyType("introText")]
+		public string IntroText
+		{
+			get { return this.GetPropertyValue<string>("introText"); }
+		}
+
+		///<summary>
+		/// Page heading
+		///</summary>
+		[ImplementPropertyType("pageHeading")]
+		public string PageHeading
+		{
+			get { return Umbraco.Web.PublishedContentModels.PageLevelControls.GetPageHeading(this); }
+		}
+	}
+
+	/// <summary>Offer Item</summary>
+	[PublishedContentModel("offerItem")]
+	public partial class OfferItem : PublishedContentModel
+	{
+#pragma warning disable 0109 // new is redundant
+		public new const string ModelTypeAlias = "offerItem";
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+#pragma warning restore 0109
+
+		public OfferItem(IPublishedContent content)
+			: base(content)
+		{ }
+
+#pragma warning disable 0109 // new is redundant
+		public new static PublishedContentType GetModelContentType()
+		{
+			return PublishedContentType.Get(ModelItemType, ModelTypeAlias);
+		}
+#pragma warning restore 0109
+
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<OfferItem, TValue>> selector)
+		{
+			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+		}
+
+		///<summary>
+		/// Book Online Link: Book online link
+		///</summary>
+		[ImplementPropertyType("bookOnlineLink")]
+		public string BookOnlineLink
+		{
+			get { return this.GetPropertyValue<string>("bookOnlineLink"); }
+		}
+
+		///<summary>
+		/// Main Text: Main text
+		///</summary>
+		[ImplementPropertyType("mainText")]
+		public Newtonsoft.Json.Linq.JToken MainText
+		{
+			get { return this.GetPropertyValue<Newtonsoft.Json.Linq.JToken>("mainText"); }
+		}
+
+		///<summary>
+		/// Offer Summary: Offer summary text used on Offers list page
+		///</summary>
+		[ImplementPropertyType("offerSummary")]
+		public IHtmlString OfferSummary
+		{
+			get { return this.GetPropertyValue<IHtmlString>("offerSummary"); }
+		}
+
+		///<summary>
+		/// Section Heading: Section heading
+		///</summary>
+		[ImplementPropertyType("sectionHeading")]
+		public string SectionHeading
+		{
+			get { return this.GetPropertyValue<string>("sectionHeading"); }
+		}
+
+		///<summary>
+		/// Sub Heading: Sub heading
+		///</summary>
+		[ImplementPropertyType("subHeading")]
+		public string SubHeading
+		{
+			get { return this.GetPropertyValue<string>("subHeading"); }
+		}
+
+		///<summary>
+		/// "What's included" Text: "What's included" text
+		///</summary>
+		[ImplementPropertyType("whatsIncludedText")]
+		public Newtonsoft.Json.Linq.JToken WhatsIncludedText
+		{
+			get { return this.GetPropertyValue<Newtonsoft.Json.Linq.JToken>("whatsIncludedText"); }
+		}
 	}
 
 	/// <summary>Folder</summary>

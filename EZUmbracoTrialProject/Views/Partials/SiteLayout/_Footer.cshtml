@@ -1,4 +1,5 @@
-﻿@inherits UmbracoViewPage
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+
 
 @using Umbraco.Web.Models
 
@@ -6,79 +7,88 @@
     IEnumerable<RelatedLink> footerSocialLinks = Umbraco.AssignedContentItem.GetPropertyValue<IEnumerable<RelatedLink>>("footerSocialLinks", true);
     IEnumerable<RelatedLink> footerLeftLinks = Umbraco.AssignedContentItem.GetPropertyValue<IEnumerable<RelatedLink>>("footerLeftLinks", true);
     IEnumerable<RelatedLink> footerRightLinks = Umbraco.AssignedContentItem.GetPropertyValue<IEnumerable<RelatedLink>>("footerRightLinks", true);
-
 }
 
-<div class="footer-basic">
-    <footer>
-        @if (footerSocialLinks != null && footerSocialLinks.Count() > 0)
+
+        
+
+
+
+
+<div id="footer">
+
+    <div id="footer-left-nav">
+        @if (footerLeftLinks != null && footerLeftLinks.Count() > 0)
         {
-            <div class="social">
-                @foreach (RelatedLink link in footerSocialLinks)
+
+            <ul>
+                @foreach (RelatedLink link in footerLeftLinks)
                 {
-                    <a href="@link.Link" target="@(link.NewWindow ? "_blank" : null)"><i class="icon fa fa-@link.Caption"></i></a>
+                    <li><a href="@link.Link" target="@(link.NewWindow ? "_blank" : null)">@link.Caption</a></li>
                 }
-            </div>
+            </ul>
+        }
+    </div>
+
+
+
+
+    <div id="footer-icons">
+
+        @if (CurrentPage.HasValue("footerAwards"))
+        {
+            var footerAwardsList = CurrentPage.footerAwards; // Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                                                             //var caseStudyImagesCollection = Umbraco.Media(caseStudyImagesList);
+
+            <ul id="footer-icons-awards">
+
+                @for (int i = 0; i < footerAwardsList.Count; i++)
+                {
+                    <li><img src="@footerAwardsList[i].Url" /></li>
+                }
+            </ul>
         }
 
 
-
-
-        <div id="footer">
-
-            <div id="footer-left-nav">
-                @if (footerLeftLinks != null && footerLeftLinks.Count() > 0)
+        @if (footerSocialLinks != null && footerSocialLinks.Count() > 0)
+        {
+            <ul id="footer-icons-social">
+                @foreach (RelatedLink link in footerSocialLinks)
                 {
+                    string strPath = "/Images/icon-" + link.Caption + ".png";
+                <li>
+                    <a href="@link.Link" target="@(link.NewWindow ? "_blank" : null)">
+                        <img src="@strPath" />
+                    </a>
+                </li>
 
-                    <ul>
-                        @foreach (RelatedLink link in footerLeftLinks)
-                        {
-                            <li><a href="@link.Link" target="@(link.NewWindow ? "_blank" : null)">@link.Caption</a></li>
-                        }
-                    </ul>
+                    
+                    @*<i class="icon fa fa-@link.Caption"></i>*@
                 }
-            </div>
-
-
-            <div id="footer-icons">
-
-                <ul id="footer-icons-awards">
-                        <li><img src="images/icon-relais-chateaux.png" /></li>
-                        <li><img src="images/icon-by-appointment.png" /></li>
-                        <li><img src="images/icon-pride-of-britain.png" /></li>
-                </ul>
-
-                <ul id="footer-icons-social">
-                    <li><a target="_blank" href="#"><img src="images/icon-google.png" /></a></li>
-                    <li><a target="_blank" href="#"><img src="images/icon-linkedin.png" /></a></li>
-                    <li><a target="_blank" href="#"><img src="images/icon-facebook.png" /></a></li>
-                    <li><a target="_blank" href="#"><img src="images/icon-tripadvisor.png" /></a></li>
-                    <li><a target="_blank" href="#"><img src="images/icon-twitter.png" /></a></li>
-                </ul>
-            </div>
-
-            <div id="footer-right-nav">
-                @if (footerRightLinks != null && footerRightLinks.Count() > 0)
-                {
-
-                    <ul>
-                        @foreach (RelatedLink link in footerRightLinks)
-                        {
-                            <li><a href="@link.Link" target="@(link.NewWindow ? "_blank" : null)">@link.Caption</a></li>
-                        }
-                    </ul>
-                }
-            </div>
-
-        </div><!-- /#footer -->
-
-
-        <div id="footer-legal-nav">
-            <ul>
-                <li>&copy; The Goring @DateTime.Now.Year</li>
-                <li><a href="#">Site Map</a></li>
-                <li><a href="#">Legal &amp; Privacy</a></li>
             </ul>
-        </div>
-    </footer>
-</div>
+        }
+    </div>   <!-- footer-icons"-->
+
+    <div id="footer-right-nav">
+        @if (footerRightLinks != null && footerRightLinks.Count() > 0)
+        {
+
+            <ul>
+                @foreach (RelatedLink link in footerRightLinks)
+                {
+                    <li><a href="@link.Link" target="@(link.NewWindow ? "_blank" : null)">@link.Caption</a></li>
+                }
+            </ul>
+        }
+    </div>
+
+    </div><!-- /#footer -->
+
+
+    <div id="footer-legal-nav">
+        <ul>
+            <li>&copy; The Goring @DateTime.Now.Year</li>
+            <li><a href="#">Site Map</a></li>
+            <li><a href="#">Legal &amp; Privacy</a></li>
+        </ul>
+    </div>

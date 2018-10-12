@@ -279,6 +279,8 @@
     <Content Include="css\jquery-ui.min.css" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Images\logo.jpg" />
+    <Content Include="Images\logo.png" />
     <Content Include="scripts\directions.js" />
     <Content Include="scripts\jquery-ui.min.js" />
     <Content Include="scripts\jquery.flexslider-min.js" />
@@ -1730,6 +1732,13 @@
     <Content Include="Views\Partials\SiteLayout\_Footer.cshtml" />
     <Content Include="Views\Partials\SiteLayout\_MainNavigation.cshtml" />
     <Content Include="Views\Partials\SiteLayout\_MetaData.cshtml" />
+    <Content Include="Views\AwardItem.cshtml" />
+    <Content Include="Views\Home.cshtml" />
+    <Content Include="Views\HomePageBox.cshtml" />
+    <Content Include="Views\Master.cshtml" />
+    <Content Include="Views\OfferItem.cshtml" />
+    <Content Include="Views\OffersList.cshtml" />
+    <Content Include="Views\TextPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,30 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.OfferItem>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+	Layout = "Master.cshtml";
+}
+
+<div class="main-content body two-columns cf">
+    <div class="left-content">
+        <h1>@Umbraco.Field("pageHeading")</h1>
+        <h2>@Umbraco.Field("subHeading")</h2>
+
+        @Html.GetGridHtml(Model.Content, "mainText")
+
+        <a class="content-cta" href="@Umbraco.Field("bookOnlineLink")" target="_blank">Book Online</a>
+    </div>
+    <!-- /.left-content -->
+    <div class="right-content">
+        <div class="room-details">
+            <h2></h2>
+            <p></p>
+        </div>
+
+        @Html.GetGridHtml(Model.Content, "whatsIncludedText")
+
+
+
+
+    </div>
+    <!-- /.right-content -->
+</div>

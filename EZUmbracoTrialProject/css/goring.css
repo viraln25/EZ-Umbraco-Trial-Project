@@ -141,9 +141,10 @@ body em {
 }
 
 #logo {
-	width: 222px;
-	height: 102px;
-	margin: 0 auto 0 auto;
+    width: 222px;
+    height: 102px;
+    margin: 0 auto 0 auto;
+
 }
 
 #logo a img {
@@ -389,6 +390,10 @@ body.fixed-header #nav-container {
 	padding: 0 5px;
 }
 
+#footer-icons-social li a {
+    text-decoration:none;
+}
+
 #footer-icons-awards img {
 	width: auto;
 	height: 105px;
@@ -452,7 +457,8 @@ body.fixed-header #nav-container {
 
 #primary-nav li {
 	display: inline-block;
-	*display: inline;
+	/* */
+    display: inline;
 	zoom: 1;
 	height: 36px;
 	line-height: 56px;
