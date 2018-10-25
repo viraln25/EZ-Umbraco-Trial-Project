@@ -1,71 +1,82 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.OffersList>
 @using ContentModels = Umbraco.Web.PublishedContentModels;
+@using PagedList;
 @{
     Layout = "Master.cshtml";
 
-    var offersList = Model.Content.Children<OfferItem>();
+    var pageSize = 3;
 
+    if (Model.Content.HasValue("numberOfItemsPerPage"))
+    {
+        pageSize = Model.Content.GetPropertyValue<int>("numberOfItemsPerPage");
+    }
+
+    var page = 1;
+    int.TryParse(Request.QueryString["page"], out page);
+
+    // var items = Model.Items;
+    var items = Model.Content.Children<OfferItem>();
+
+
+    var totalPages = (int)Math.Ceiling((double)items.Count() / (double)pageSize);
+
+    if (page > totalPages)
+    {
+        page = totalPages;
+    }
+    else if (page < 1)
+    {
+        page = 1;
+    }
 }
 
 <div class="main-content body one-column cf">
-			
- <h1>@Umbraco.Field("pageHeading")</h1>
- <p>@Umbraco.Field("introText")</p>
-		</div>
+
+    <h1>@Umbraco.Field("pageHeading")</h1>
+    <p>@Umbraco.Field("introText")</p>
+</div>
 <!-- /.main-content -->
 <div class="offers-grid">
 
-    @foreach (var offer in offersList)
+    @*@foreach (var offer in items)*@
+
+    @foreach (var offer in items.Skip((page - 1) * pageSize).Take(pageSize))
     {
         <div class="offer-item">
             <h2>@offer.SubHeading</h2>
             <h3>@offer.SectionHeading</h3>
-            <p><span><span>
-                
-                @offer.OfferSummary
-                </span></span></p>
-            
+            <p>
+                <span>
+                    <span>
+                        @offer.OfferSummary
+                    </span>
+                </span>
+            </p>
+
             <a href="@offer.Url" class="offer-item-link">Click here for details</a>
         </div>
 
-
     }
-
-    
-    @*<div class="offer-item">
-        <h2>Example offer 1</h2>
-        <h3>Enjoy 50% off</h3>
-        <p><span><span>Spend two nights with us, including a Sunday, and you will receive 50% off your Sunday night rate - great for weekends.</span></span></p>
-        <a href="/link/" class="offer-item-link">Click here for details</a>
-    </div>
-    <div class="offer-item">
-        <h2>Example offer 2</h2>
-        <h3>From £434 per night</h3>
-        <p><span><span>Spend two nights with us, including a Sunday, and you will receive 50% off your Sunday night rate - great for weekends.</span></span></p>
-        <a href="/link/" class="offer-item-link">Click here for details</a>
-    </div>
-    <div class="offer-item">
-        <h2>Another example</h2>
-        <h3>From £222 per night</h3>
-        <p><span><span>Spend two nights with us, including a Sunday, and you will receive 50% off your Sunday night rate - great for weekends.</span></span></p>
-        <a href="/link/" class="offer-item-link">Click here for details</a>
-    </div>
-    <div class="offer-item">
-        <h2>Example offer 1</h2>
-        <h3>Enjoy 50% off</h3>
-        <p><span><span>Spend two nights with us, including a Sunday, and you will receive 50% off your Sunday night rate - great for weekends.</span></span></p>
-        <a href="/link/" class="offer-item-link">Click here for details</a>
-    </div>
-    <div class="offer-item">
-        <h2>Example offer 2</h2>
-        <h3>From £434 per night</h3>
-        <p><span><span>Spend two nights with us, including a Sunday, and you will receive 50% off your Sunday night rate - great for weekends.</span></span></p>
-        <a href="/link/" class="offer-item-link">Click here for details</a>
-    </div>
-    <div class="offer-item">
-        <h2>Another example</h2>
-        <h3>From £222 per night</h3>
-        <p><span><span>Spend two nights with us, including a Sunday, and you will receive 50% off your Sunday night rate - great for weekends.</span></span></p>
-        <a href="/link/" class="offer-item-link">Click here for details</a>
-    </div>*@
 </div>
+
+@if (totalPages > 1)
+{
+
+    <ul class="pagination">
+        @if (page > 1)
+        {
+            <li><a href="?page=@(page-1)">Prev</a></li>
+        }
+        @for (int p = 1; p < totalPages + 1; p++)
+        {
+            <li class="@(p == page ? "active" : string.Empty)">
+                <a href="?page=@p">@p</a>
+            </li>
+        }
+        @if (page < totalPages)
+        {
+            <li><a href="?page=@(page+1)">Next</a></li>
+        }
+    </ul>
+
+}
